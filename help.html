@@ -1,109 +1,41 @@
+<img src=“al2.png” width=“30%”>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Showdown Live Editor</title>
+Aqua-Checkin App
+<br>
+The Aqua-CheckIn App helps Aqua employees easily check-in each morning from their computer, phone or tablet. <br>
+The report created from the Aqua-CheckIn App will be used to account for all Aqua employees in an emergency evacuation.<br>
+<br>
 
-  <link href='http://fonts.googleapis.com/css?family=Old+Standard+TT:400,400italic,700' rel='stylesheet' type='text/css'>
-  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,600' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.2/css/foundation.min.css">
-  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-  <link rel="stylesheet" type="text/css" href="css/style.css">
-
-  <link rel="apple-touch-icon" sizes="57x57" href="img/apple-touch-icon-57x57.png">
-  <link rel="apple-touch-icon" sizes="60x60" href="img/apple-touch-icon-60x60.png">
-  <link rel="apple-touch-icon" sizes="72x72" href="img/apple-touch-icon-72x72.png">
-  <link rel="apple-touch-icon" sizes="76x76" href="img/apple-touch-icon-76x76.png">
-  <link rel="apple-touch-icon" sizes="114x114" href="img/apple-touch-icon-114x114.png">
-  <link rel="apple-touch-icon" sizes="120x120" href="img/apple-touch-icon-120x120.png">
-  <link rel="apple-touch-icon" sizes="144x144" href="img/apple-touch-icon-144x144.png">
-  <link rel="apple-touch-icon" sizes="152x152" href="img/apple-touch-icon-152x152.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon-180x180.png">
-  <link rel="icon" type="image/png" href="img/favicon-32x32.png" sizes="32x32">
-  <link rel="icon" type="image/png" href="img/android-chrome-192x192.png" sizes="192x192">
-  <link rel="icon" type="image/png" href="img/favicon-96x96.png" sizes="96x96">
-  <link rel="icon" type="image/png" href="img/favicon-16x16.png" sizes="16x16">
-  <link rel="manifest" href="manifest.json">
-  <meta name="msapplication-TileColor" content="#2b5797">
-  <meta name="msapplication-TileImage" content="img/mstile-144x144.png">
-  <meta name="theme-color" content="#ffffff">
-  
-  <!-- conditional load of showdown's version based on the cookie -->
-  <script>
-    (function() {
-      function getCookie(name) {
-        var value = "; " + document.cookie;
-        var parts = value.split("; " + name + "=");
-        if (parts.length === 2) return parts.pop().split(";").shift();
-      }
-
-      var ver = getCookie('version') || 'develop',
-          url = 'https://rawgit.com/showdownjs/showdown/' + ver + '/dist/showdown.min.js',
-          scrp = document.createElement('script');
-
-      scrp.setAttribute("type","text/javascript");
-      scrp.src = url;
-      document.getElementsByTagName("head")[0].appendChild(scrp);
-    })();
-  </script>
-
-</head>
-<body data-ng-controller="editorCtrl">
-
-  <nav class="top-bar" data-topbar role="navigation" data-ng-include="'partials/nav.html'"></nav>
-
-  <div id="editor-wrapper" class="container">
-    <textarea id="editor" data-ng-model="text"></textarea>
-    <div id="preview" sd-model-to-html="text"></div>
-  </div>
-  <div class="lateral-menu" pageslide ps-open="checked" ps-side="left" ps-body-class="squeezed-body">
-    <div class="lateral-menu-content">
-      <div class="title">Options</div>
-      <div class="lateral-menu-content-inner">
-
-        <div ng-repeat="opt in checkOpts">
-          <input id="checkOpt-{{$id}}" ng-click="updateOptions(); repaint();" type="checkbox" ng-model="opt.value" />
-          <label for="checkOpt-{{$id}}" class="inline">{{opt.name}}</label>
-        </div>
-        <hr>
-        <div ng-repeat="opt in numOpts">
-          <label for="option-{opt.name}">{{opt.name}}</label>
-          <input id="option-{opt.name}" ng-change="updateOptions(); repaint();" type="number" ng-model="opt.value"/>
-        </div>
-        <div ng-repeat="opt in textOpts">
-          <label for="option-{opt.name}">{{opt.name}}</label>
-          <input id="textOption-{opt.name}" data-ng-change="updateOptions(); repaint();" type="text" ng-model="opt.value"/>
-        </div>
-        <div>
-          <label for="showdownVersion">Showdown Version</label>
-          <select id="showdownVersion" ng-model="version" ng-options="v for v in versions" ng-change="loadVersion()"></select>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- modal -->
-  <div data-ng-hide="!showModal" class="modal-wrapper ng-hide">
-    <div class="modal-inner" aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
-      <div class="modal-topbar">
-        <span><i>&nbsp;&nbsp;Limited to 1000 characters</i></span><a class="modal-close-btn" aria-label="Close" data-ng-click="showModal = false"><i class="fa fa-lg fa-close"></i></a>
-      </div>
-      <div class="link-area">
-        <textarea id="dlnk" style="resize: none;">{{hashTxt}}</textarea>
-      </div>
-    </div>
-  </div>
-  <!-- end modal -->
-
-  <script src="js/semver.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.5/angular.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.5/angular-sanitize.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.5/angular-animate.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.5/angular-route.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.5/angular-cookies.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-pageslide-directive/2.2.0/angular-pageslide-directive.js" integrity="sha256-FW2YsacWIn83+j6c02CWOR8fuY4WyzbmmGwz7VOdEI0=" crossorigin="anonymous"></script>
-
-  <script src="js/editor.js"></script>
-</body>
-</html>
+How to use Aqua-Checkin App
+Once app loads begin typing in your first or last name in textbox until your name appears
+Tap/Click <b>IN</b> or <b>OUT</b> button
+That’s it!
+How to view Aqua-Checkin App Report
+Once app loads click on the <b>Report</b> button
+The report will only show checkins for tha day
+How to setup Aqua-Checkin App
+Computer/Laptop<br>
+Go to https://aquacheckin.github.io/ from the Chrome web browser<br>
+Bookmark or save as a Chrome app<br><br>
+<b>Save as a Chrome app</b><br>
+Click the Chrome menu on the browser toolbar.<br>
+Select <b>More Tools</b>.<br>
+Select <b>Createshortcut</b> and checkbox <b>Open as Window</b>.<br>
+Click <b>Create</b>.<br>
+To view your Chrome apps click on the <b>Show Apps</b> icon <img src="https://i.imgur.com/fgSo4Yh.png" width=“10%”>
+<br>
+iPhone<br>
+Open https://aquacheckin.github.io/ from Safari web browser<br><br>
+<b>See Picture Steps below on how to add to iPhones home screen</b><br><br>
+Tap arrow icon on bottom of iphone (see circled icon)<br>
+<img src=“111.jpg” width=“20%”><br>
+Tap <b>Add to Home Screen</b> (see circled icon)<br>
+<img src=“222.jpg” width=“20%”><br>
+Tap <b>Add</b> (see circled icon)<br>
+<img src=“333.jpg” width=“20%”><br>
+You should now see the <b>Aqua-Checkin</b> icon on your iPhones home screen! (see image below)<br>
+<img src=“444.jpg”><br>
+Android<br>
+Open https://aquacheckin.github.io/ from the Chrome web browser<br>
+Tap on the <b>Menu</b> button. The looks of the Menu button will depend on your device; usually it’s an app button that looks like <br>three horizontal lines stacked on each other, or it could be accessed through a hardware button on your phone.<br>
+Tap <b>Add to Home Screen</b>, Done! A shortcut to the website will be added to your home screen.<br>
