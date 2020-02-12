@@ -1,14 +1,15 @@
 {
-  "main.css": "/static/css/main.f6e6cf2e.chunk.css",
-  "main.js": "/static/js/main.14d8e61a.chunk.js",
-  "main.js.map": "/static/js/main.14d8e61a.chunk.js.map",
-  "runtime~main.js": "/static/js/runtime~main.a8a9905a.js",
-  "runtime~main.js.map": "/static/js/runtime~main.a8a9905a.js.map",
-  "static/js/2.286a0fc0.chunk.js": "/static/js/2.286a0fc0.chunk.js",
-  "static/js/2.286a0fc0.chunk.js.map": "/static/js/2.286a0fc0.chunk.js.map",
-  "index.html": "/index.html",
-  "precache-manifest.cb6249861c5a238c352ca3c95d846b31.js": "/precache-manifest.cb6249861c5a238c352ca3c95d846b31.js",
-  "service-worker.js": "/service-worker.js",
-  "static/css/main.f6e6cf2e.chunk.css.map": "/static/css/main.f6e6cf2e.chunk.css.map",
-  "static/media/Roll2Screen_elImage_62945.png": "/static/media/Roll2Screen_elImage_62945.d9cbc3fc.png"
+  "main.css": "/u/aquadirectory/static/css/main.09ea24b3.chunk.css",
+  "main.js": "/u/aquadirectory/static/js/main.f8282fe9.chunk.js",
+  "main.js.map": "/u/aquadirectory/static/js/main.f8282fe9.chunk.js.map",
+  "runtime~main.js": "/u/aquadirectory/static/js/runtime~main.c95904ff.js",
+  "runtime~main.js.map": "/u/aquadirectory/static/js/runtime~main.c95904ff.js.map",
+  "static/js/2.af3a6935.chunk.js": "/u/aquadirectory/static/js/2.af3a6935.chunk.js",
+  "static/js/2.af3a6935.chunk.js.map": "/u/aquadirectory/static/js/2.af3a6935.chunk.js.map",
+  "index.html": "/u/aquadirectory/index.html",
+  "precache-manifest.c21919ebb6c3fd9009741a38b87bb005.js": "/u/aquadirectory/precache-manifest.c21919ebb6c3fd9009741a38b87bb005.js",
+  "service-worker.js": "/u/aquadirectory/service-worker.js",
+  "static/css/main.09ea24b3.chunk.css.map": "/u/aquadirectory/static/css/main.09ea24b3.chunk.css.map",
+  "static/media/Roll2Screen_elImage_62945.png": "/u/aquadirectory/static/media/Roll2Screen_elImage_62945.d9cbc3fc.png",
+  "static/media/WaitScreen_elImage_986857.png": "/u/aquadirectory/static/media/WaitScreen_elImage_986857.0eb11883.png"
 }
