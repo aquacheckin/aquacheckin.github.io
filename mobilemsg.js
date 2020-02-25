@@ -3,7 +3,6 @@ window.onload=function(){
     if (mobile) {
         window.onorientationchange = function() { 
   if(window.innerHeight > window.innerWidth){
-     alert("Please rotate phone to landscape mode for best experience");  
 }else{
  window.location.replace('index.html');
 }
