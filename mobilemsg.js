@@ -6,7 +6,6 @@ window.onload=function(){
     alert("Please rotate phone to landscape mode for best experience");  
 }            
     } else {
-window.location.replace('index.html');
     }
   }
 
