@@ -1,5 +1,5 @@
 /* if portrait mode is detected, rotate the entire site -90 degrees to hint rotating to landscape */
-@media screen and (max-width: 320px) and (orientation: portrait) {
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
   html {
     transform: rotate(-90deg);
     transform-origin: left top;
