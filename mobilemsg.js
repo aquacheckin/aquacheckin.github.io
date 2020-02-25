@@ -1,1 +1,1 @@
-screen.orientation.lock("portrait-primary");
+screen.orientation.lock("landscape-primary");
