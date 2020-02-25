@@ -1,10 +1,5 @@
 /* if portrait mode is detected, rotate the entire site -90 degrees to hint rotating to landscape */
-@media (orientation: portrait) {
-  body {
-    -webkit-transform: rotate(-90deg);
-    -moz-transform: rotate(-90deg);
-    -o-transform: rotate(-90deg);
-    -ms-transform: rotate(-90deg);
-    transform: rotate(-90deg);
-  }
+@media (max-width : 320px) {
+var rotate = 0 - window.orientation;
+setAttribute("transform:rotate("+rotate+"deg);-ms-transform:rotate("+rotate+"deg);-webkit-transform:rotate("+rotate+"deg)", "style");
 }
