@@ -34,5 +34,15 @@ service cloud.firestore {
                     && request.resource.data.status in ['in', 'out'];
       allow update, delete: if false;    // check-ins are an append-only log
     }
+
+    // Admin "soft reset" markers. The app ignores any check-in dated at/before
+    // the latest marker for that day, which clears the report without deleting
+    // history. Append-only like checkins.
+    match /resets/{id} {
+      allow read: if true;
+      allow create: if request.resource.data.keys().hasAll(['date'])
+                    && request.resource.data.date is string;
+      allow update, delete: if false;
+    }
   }
 }

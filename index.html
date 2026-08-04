@@ -50,6 +50,7 @@
 
       <div class="small-links no-print">
         <a href="help.html" target="_blank" rel="noopener">Help</a>
+        <a href="#" data-goto="admin">Admin</a>
       </div>
     </section>
 
@@ -111,6 +112,35 @@
         <h2>Second Floor Evacuation Route</h2>
       </div>
       <img class="evac-img" src="img/floor2.jpg" alt="Second floor evacuation route">
+    </section>
+
+    <!-- ============================ ADMIN ============================ -->
+    <section id="view-admin" class="view">
+      <div class="topbar">
+        <button class="btn ghost small" data-goto="home">‹ Back</button>
+        <h2>Admin</h2>
+        <button id="adminLockBtn" class="btn ghost small" style="display:none">Lock</button>
+      </div>
+
+      <!-- Locked: PIN entry -->
+      <div id="adminLocked">
+        <p class="hint" style="text-align:left">Enter the admin PIN to manage today's check-ins.</p>
+        <form id="pinForm">
+          <div class="field">
+            <label for="pinInput">Admin PIN</label>
+            <input id="pinInput" type="password" inputmode="numeric" autocomplete="off" required>
+          </div>
+          <button class="btn block" type="submit">Unlock</button>
+        </form>
+      </div>
+
+      <!-- Unlocked: panel -->
+      <div id="adminPanel" style="display:none">
+        <button id="resetBtn" class="btn block red">Reset all check-ins for today</button>
+        <p class="report-meta" id="adminMeta"></p>
+        <ul id="adminList" class="list"></ul>
+        <div id="adminEmpty" class="empty" style="display:none">No one is checked in right now.</div>
+      </div>
     </section>
 
   </div>

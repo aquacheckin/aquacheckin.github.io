@@ -33,3 +33,8 @@ export const locatorConfig = {
 
 // Firestore collection path inside the AQUALocator project.
 export const locatorEmployeesPath = "artifacts/default-app-id/public/data/employees";
+
+// PIN required to open the Admin panel (reset / check people out).
+// NOTE: this lives in client code, so it only deters casual/accidental use —
+// it is not real security. CHANGE THIS from the default before going live.
+export const adminPin = "2468";

@@ -63,8 +63,30 @@ updated the check-in app reflects it automatically — no re-seeding.
 { first, last, dept, title: "Guest", ext, email }
 ```
 
+**`resets`** (add-only "soft reset" markers — in `aquacheckinapp`)
+```
+{ date: "YYYY-MM-DD", ts }
+```
+
 The report and status badges are computed from the newest check-in per person
-for the current day, so the log stays simple and audit-friendly.
+for the current day, **ignoring any check-in dated at or before the latest
+`resets` marker for that day**, so the log stays simple and audit-friendly.
+
+## Admin panel (PIN-gated)
+
+Home screen → **Admin** link. Enter the PIN (`adminPin` in
+`firebase-config.js` — **change it from the default `2468`**) to unlock:
+
+- **Reset all check-ins for today** — writes a `resets` marker, which instantly
+  clears today's report (everyone shows as not checked in). Nothing is deleted;
+  the check-in history is preserved. People simply check in again afterward.
+- **Check out** next to any currently-in person — records an `out` for them
+  (handy for fixing a mistaken check-in).
+
+The PIN lives in client code, so it only deters casual/accidental use — it is
+**not** real security (the Firestore rules already allow anyone to write). For
+genuine access control, put the app behind Firebase Authentication and restrict
+the `resets`/`checkins` rules to an admin allowlist.
 
 ## No seeding
 

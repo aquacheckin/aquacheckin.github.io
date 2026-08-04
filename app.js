@@ -7,7 +7,7 @@
 // "demo mode" backed by localStorage.
 // ============================================================================
 
-import { firebaseConfig, locatorConfig, locatorEmployeesPath } from "./firebase-config.js";
+import { firebaseConfig, locatorConfig, locatorEmployeesPath, adminPin } from "./firebase-config.js";
 
 const isConfigured =
   firebaseConfig &&
@@ -91,6 +91,7 @@ async function makeFirebaseStore() {
   const employeesCol = collection(dbLocator, locatorEmployeesPath);
   const guestsCol = collection(dbCheckin, "guests");
   const checkinsCol = collection(dbCheckin, "checkins");
+  const resetsCol = collection(dbCheckin, "resets");
 
   return {
     mode: "firebase",
@@ -122,12 +123,23 @@ async function makeFirebaseStore() {
       }, (e) => toast("Report load error: " + e.message, true));
     },
 
+    subscribeTodayResets(cb) {
+      const q = query(resetsCol, where("date", "==", todayKey()));
+      return onSnapshot(q, (snap) => {
+        cb(snap.docs.map((d) => ({ id: d.id, ...d.data() })));
+      }, () => { /* resets optional */ });
+    },
+
     async addGuest(g) {
       await addDoc(guestsCol, g);
     },
 
     async addCheckin(rec) {
       await addDoc(checkinsCol, { ...rec, date: todayKey(), ts: serverTimestamp() });
+    },
+
+    async addReset() {
+      await addDoc(resetsCol, { date: todayKey(), ts: serverTimestamp() });
     },
   };
 }
@@ -137,15 +149,19 @@ function makeLocalStore() {
   const write = (k, v) => localStorage.setItem(k, JSON.stringify(v));
   const dirListeners = new Set();
   const chkListeners = new Set();
+  const resListeners = new Set();
   const emitDir = () =>
     dirListeners.forEach((cb) => cb(read("aq_guests", []).map((g) => ({ source: "guest", ...g }))));
   const emitChk = () =>
     chkListeners.forEach((cb) => cb(read("aq_checkins", []).filter((c) => c.date === todayKey())));
+  const emitRes = () =>
+    resListeners.forEach((cb) => cb(read("aq_resets", []).filter((r) => r.date === todayKey())));
 
   return {
     mode: "local",
     subscribeDirectory(cb) { dirListeners.add(cb); emitDir(); return () => dirListeners.delete(cb); },
     subscribeTodayCheckins(cb) { chkListeners.add(cb); emitChk(); return () => chkListeners.delete(cb); },
+    subscribeTodayResets(cb) { resListeners.add(cb); emitRes(); return () => resListeners.delete(cb); },
     async addGuest(g) {
       const list = read("aq_guests", []);
       list.push({ id: "g" + Date.now(), ...g });
@@ -155,6 +171,11 @@ function makeLocalStore() {
       const list = read("aq_checkins", []);
       list.push({ id: "c" + Date.now(), ...rec, date: todayKey(), ts: Date.now() });
       write("aq_checkins", list); emitChk();
+    },
+    async addReset() {
+      const list = read("aq_resets", []);
+      list.push({ id: "r" + Date.now(), date: todayKey(), ts: Date.now() });
+      write("aq_resets", list); emitRes();
     },
   };
 }
@@ -166,16 +187,42 @@ let directory = [];      // merged employees + guests
 let todayCheckins = [];
 let filterStr = "";
 let dirLoaded = false;
+let resetTs = 0;         // check-ins at/before this are ignored (soft reset)
+let adminUnlocked = sessionStorage.getItem("aq_admin") === "1";
+
+function toMillis(ts) {
+  return ts && ts.toMillis ? ts.toMillis() : (ts || 0);
+}
 
 function statusMap() {
   const map = new Map();
   for (const c of todayCheckins) {
+    const t = toMillis(c.ts);
+    if (t <= resetTs) continue; // ignore anything before the latest reset
     const k = personKey(c);
-    const t = c.ts && c.ts.toMillis ? c.ts.toMillis() : (c.ts || 0);
     const prev = map.get(k);
     if (!prev || t >= prev.t) map.set(k, { status: c.status, t, time: c.time });
   }
   return map;
+}
+
+// Everyone currently checked "in" today (shared by Report and Admin).
+function computePresent() {
+  const sm = statusMap();
+  const present = [];
+  const known = new Set();
+  for (const p of directory) {
+    const st = sm.get(personKey(p));
+    if (st && st.status === "in") { present.push({ ...p, time: st.time }); known.add(personKey(p)); }
+  }
+  for (const [k, st] of sm) {
+    if (st.status === "in" && !known.has(k)) {
+      const c = todayCheckins.find((x) => personKey(x) === k);
+      if (c) present.push({ first: c.first, last: c.last, dept: c.dept, time: st.time });
+    }
+  }
+  present.sort((a, b) => (a.last || "").localeCompare(b.last || ""));
+  return present;
 }
 
 // ---------------------------------------------------------------------------
@@ -236,23 +283,8 @@ function renderPeople() {
 function renderReport() {
   const body = $("#reportBody");
   const empty = $("#reportEmpty");
-  const sm = statusMap();
+  const present = computePresent();
 
-  const present = [];
-  const known = new Set();
-  for (const p of directory) {
-    const st = sm.get(personKey(p));
-    if (st && st.status === "in") { present.push({ ...p, time: st.time }); known.add(personKey(p)); }
-  }
-  // include any check-ins whose person isn't in the current directory
-  for (const [k, st] of sm) {
-    if (st.status === "in" && !known.has(k)) {
-      const c = todayCheckins.find((x) => personKey(x) === k);
-      if (c) present.push({ first: c.first, last: c.last, dept: c.dept, time: st.time });
-    }
-  }
-
-  present.sort((a, b) => (a.last || "").localeCompare(b.last || ""));
   $("#reportMeta").textContent =
     `${new Date().toLocaleDateString()} — ${present.length} checked in`;
 
@@ -272,6 +304,104 @@ function renderReport() {
       </tr>`
     )
     .join("");
+}
+
+// ---------------------------------------------------------------------------
+// Admin panel (PIN-gated)
+// ---------------------------------------------------------------------------
+function renderAdmin() {
+  const locked = !adminUnlocked;
+  $("#adminLocked").style.display = locked ? "block" : "none";
+  $("#adminPanel").style.display = locked ? "none" : "block";
+  $("#adminLockBtn").style.display = locked ? "none" : "inline-block";
+  if (locked) { $("#pinInput").value = ""; setTimeout(() => $("#pinInput").focus(), 0); return; }
+
+  const present = computePresent();
+  $("#adminMeta").textContent =
+    `${new Date().toLocaleDateString()} — ${present.length} currently checked in`;
+  const list = $("#adminList");
+  const empty = $("#adminEmpty");
+  if (!present.length) {
+    list.innerHTML = "";
+    empty.style.display = "block";
+    return;
+  }
+  empty.style.display = "none";
+  list.innerHTML = present
+    .map(
+      (p) => `
+      <li class="person">
+        <div class="who">
+          <div class="name">${escapeHtml(p.first)} ${escapeHtml(p.last)}
+            <span class="badge in">In${p.time ? " · " + escapeHtml(p.time) : ""}</span></div>
+          <div class="dept">${escapeHtml(p.dept || "")}</div>
+        </div>
+        <div class="acts">
+          <button class="btn red small" data-admin-out
+            data-first="${escapeAttr(p.first)}" data-last="${escapeAttr(p.last)}"
+            data-dept="${escapeAttr(p.dept || "")}">Check out</button>
+        </div>
+      </li>`
+    )
+    .join("");
+}
+
+function unlockAdmin(e) {
+  e.preventDefault();
+  const val = $("#pinInput").value.trim();
+  if (val && val === String(adminPin)) {
+    adminUnlocked = true;
+    sessionStorage.setItem("aq_admin", "1");
+    renderAdmin();
+  } else {
+    toast("Incorrect PIN.", true);
+    $("#pinInput").value = "";
+  }
+}
+
+function lockAdmin() {
+  adminUnlocked = false;
+  sessionStorage.removeItem("aq_admin");
+  renderAdmin();
+}
+
+async function resetToday() {
+  if (!adminUnlocked) return;
+  const present = computePresent();
+  const msg = present.length
+    ? `Reset today's roll call? All ${present.length} checked-in people will show as not checked in.\n\nThe check-in history is preserved — this only clears today's report.`
+    : `Reset today's roll call? (No one is currently checked in.)\n\nThe check-in history is preserved.`;
+  if (!window.confirm(msg)) return;
+  const btn = $("#resetBtn");
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Resetting…';
+  try {
+    await DataStore.addReset();
+    toast("Today's check-ins have been reset.");
+  } catch (err) {
+    toast("Could not reset: " + err.message, true);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "Reset all check-ins for today";
+  }
+}
+
+async function adminCheckOut(btn) {
+  const rec = {
+    first: btn.getAttribute("data-first"),
+    last: btn.getAttribute("data-last"),
+    dept: btn.getAttribute("data-dept"),
+    status: "out",
+    time: new Date().toLocaleTimeString([], { hour: "numeric", minute: "2-digit" }),
+  };
+  btn.disabled = true;
+  try {
+    await DataStore.addCheckin(rec);
+    toast(`${rec.first} ${rec.last} checked out.`);
+  } catch (e) {
+    toast("Could not check out: " + e.message, true);
+    btn.disabled = false;
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -332,6 +462,7 @@ function show(name) {
   const el = $("#view-" + name);
   if (el) el.classList.add("active");
   if (name === "report") renderReport();
+  if (name === "admin") renderAdmin();
   if (name === "home") $("#search").focus();
   window.scrollTo(0, 0);
 }
@@ -345,7 +476,9 @@ function wire() {
     if (nav) { e.preventDefault(); show(nav.getAttribute("data-goto")); return; }
     const act = e.target.closest("[data-act]");
     if (act) { checkPerson(act.getAttribute("data-key"), act.getAttribute("data-act")); return; }
-    const dept = e.target.closest("[data-dept]");
+    const adminOut = e.target.closest("[data-admin-out]");
+    if (adminOut) { adminCheckOut(adminOut); return; }
+    const dept = e.target.closest(".dept[data-dept]");
     if (dept) {
       filterStr = dept.getAttribute("data-dept") || "";
       $("#search").value = filterStr;
@@ -357,6 +490,9 @@ function wire() {
   $("#guestForm").addEventListener("submit", addGuest);
   $("#printBtn").addEventListener("click", () => window.print());
   $("#logo").addEventListener("click", () => location.reload());
+  $("#pinForm").addEventListener("submit", unlockAdmin);
+  $("#adminLockBtn").addEventListener("click", lockAdmin);
+  $("#resetBtn").addEventListener("click", resetToday);
 
   if (!isConfigured) $("#configBanner").style.display = "block";
 }
@@ -379,14 +515,22 @@ function boot() {
   DataStore.subscribeDirectory((rows) => {
     directory = rows;
     dirLoaded = true;
-    renderPeople();
-    if ($("#view-report").classList.contains("active")) renderReport();
+    refreshActiveViews();
   });
   DataStore.subscribeTodayCheckins((rows) => {
     todayCheckins = rows;
-    renderPeople();
-    if ($("#view-report").classList.contains("active")) renderReport();
+    refreshActiveViews();
   });
+  DataStore.subscribeTodayResets((rows) => {
+    resetTs = rows.reduce((max, r) => Math.max(max, toMillis(r.ts)), 0);
+    refreshActiveViews();
+  });
+}
+
+function refreshActiveViews() {
+  renderPeople();
+  if ($("#view-report").classList.contains("active")) renderReport();
+  if ($("#view-admin").classList.contains("active")) renderAdmin();
 }
 
 boot();
