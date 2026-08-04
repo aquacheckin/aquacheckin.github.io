@@ -226,6 +226,23 @@ function computePresent() {
 }
 
 // ---------------------------------------------------------------------------
+// Rendering helpers
+// ---------------------------------------------------------------------------
+function initials(p) {
+  const a = (p.first || "").trim(), b = (p.last || "").trim();
+  return ((a[0] || "") + (b[0] || "")).toUpperCase() || "?";
+}
+function hueFor(s) {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0;
+  return h % 360;
+}
+function avatarHtml(p) {
+  const cls = p.source === "guest" ? "avatar guest" : "avatar";
+  return `<div class="${cls}" style="--h:${hueFor(personKey(p))}">${escapeHtml(initials(p))}</div>`;
+}
+
+// ---------------------------------------------------------------------------
 // Rendering
 // ---------------------------------------------------------------------------
 function renderPeople() {
@@ -233,8 +250,11 @@ function renderPeople() {
   const empty = $("#peopleEmpty");
   const f = filterStr.trim().toLowerCase();
 
+  const count = $("#resultCount");
+
   if (!f) {
     list.innerHTML = "";
+    if (count) count.hidden = true;
     empty.style.display = "block";
     empty.textContent = dirLoaded
       ? "Type a name or department above to search the directory."
@@ -250,8 +270,14 @@ function renderPeople() {
       (p.dept || "").toLowerCase().includes(f)
   );
 
+  if (count) {
+    count.hidden = false;
+    const capped = matches.length > 60 ? " · showing 60" : "";
+    count.textContent = `${matches.length} ${matches.length === 1 ? "match" : "matches"}${capped}`;
+  }
+
   if (!matches.length) {
-    list.innerHTML = `<div class="empty">No match for “${escapeHtml(filterStr)}”. Try again or
+    list.innerHTML = `<div class="empty">No match for “${escapeHtml(filterStr)}”.<br>Try a different spelling or
       <a href="#" data-goto="guest">add a guest</a>.</div>`;
     return;
   }
@@ -264,9 +290,10 @@ function renderPeople() {
       const badge = st
         ? `<span class="badge ${st.status}">${st.status === "in" ? "In" : "Out"}</span>`
         : "";
-      const guestTag = p.source === "guest" ? ' <span class="badge out">Guest</span>' : "";
+      const guestTag = p.source === "guest" ? '<span class="badge out">Guest</span>' : "";
       return `
       <li class="person">
+        ${avatarHtml(p)}
         <div class="who">
           <div class="name">${escapeHtml(p.first)} ${escapeHtml(p.last)}${badge}${guestTag}</div>
           <div class="dept" data-dept="${escapeAttr(p.dept)}">${escapeHtml(p.dept || "")}</div>
@@ -331,6 +358,7 @@ function renderAdmin() {
     .map(
       (p) => `
       <li class="person">
+        ${avatarHtml(p)}
         <div class="who">
           <div class="name">${escapeHtml(p.first)} ${escapeHtml(p.last)}
             <span class="badge in">In${p.time ? " · " + escapeHtml(p.time) : ""}</span></div>
@@ -486,7 +514,22 @@ function wire() {
     }
   });
 
-  $("#search").addEventListener("input", (e) => { filterStr = e.target.value; renderPeople(); });
+  const searchEl = $("#search");
+  const clearEl = $("#searchClear");
+  searchEl.addEventListener("input", (e) => {
+    filterStr = e.target.value;
+    if (clearEl) clearEl.hidden = filterStr.length === 0;
+    renderPeople();
+  });
+  if (clearEl) {
+    clearEl.addEventListener("click", () => {
+      filterStr = "";
+      searchEl.value = "";
+      clearEl.hidden = true;
+      renderPeople();
+      searchEl.focus();
+    });
+  }
   $("#guestForm").addEventListener("submit", addGuest);
   $("#printBtn").addEventListener("click", () => window.print());
   $("#logo").addEventListener("click", () => location.reload());

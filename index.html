@@ -32,9 +32,13 @@
 
       <div class="search-wrap">
         <input id="search" type="text" autocomplete="off"
-               placeholder="Type your first name, last name, or department…">
+               placeholder="Search your name or department…">
+        <button id="searchClear" class="search-clear" type="button" aria-label="Clear search" hidden>&times;</button>
       </div>
-      <div class="hint">Start typing to find your name, then tap <b>IN</b> or <b>OUT</b>.</div>
+      <div class="subhint">
+        <span class="hint">Start typing, then tap <b>IN</b> or <b>OUT</b>.</span>
+        <span id="resultCount" class="result-count" hidden></span>
+      </div>
 
       <ul id="peopleList" class="list"></ul>
       <div id="peopleEmpty" class="empty" style="display:none">
