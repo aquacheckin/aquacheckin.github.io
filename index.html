@@ -1,1 +1,134 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name="theme-color" content="#000000"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><link rel="manifest" href="/manifest.json"><link rel="icon" type="image/png" sizes="64x64" href="/favicon.png"><link rel="icon" type="image/png" sizes="128x128" href="/favicon_128px.png"><link rel="icon" type="image/png" sizes="192x192" href="/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="512x512" href="/android-launch-image.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)" href="/apple-launch-1242x2688.png"><link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)" href="/apple-launch-828x1792.png"><link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)" href="/apple-launch-1125x2436.png"><link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3)" href="/apple-launch-1242x2208.png"><link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)" href="/apple-launch-750x1334.png"><link rel="apple-touch-startup-image" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)" href="/apple-launch-2048x2732.png"><link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)" href="/apple-launch-1668x2388.png"><link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2)" href="/apple-launch-1668x2224.png"><link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)" href="/apple-launch-1536x2048.png"><title>Aqua-Checkin</title><link href="/static/css/main.d135f0f0.chunk.css" rel="stylesheet"></head><body><noscript>You need to enable JavaScript to run this app.</noscript><div id="root"></div><script>!function(l){function e(e){for(var r,t,n=e[0],o=e[1],u=e[2],f=0,i=[];f<n.length;f++)t=n[f],p[t]&&i.push(p[t][0]),p[t]=0;for(r in o)Object.prototype.hasOwnProperty.call(o,r)&&(l[r]=o[r]);for(s&&s(e);i.length;)i.shift()();return c.push.apply(c,u||[]),a()}function a(){for(var e,r=0;r<c.length;r++){for(var t=c[r],n=!0,o=1;o<t.length;o++){var u=t[o];0!==p[u]&&(n=!1)}n&&(c.splice(r--,1),e=f(f.s=t[0]))}return e}var t={},p={1:0},c=[];function f(e){if(t[e])return t[e].exports;var r=t[e]={i:e,l:!1,exports:{}};return l[e].call(r.exports,r,r.exports,f),r.l=!0,r.exports}f.m=l,f.c=t,f.d=function(e,r,t){f.o(e,r)||Object.defineProperty(e,r,{enumerable:!0,get:t})},f.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},f.t=function(r,e){if(1&e&&(r=f(r)),8&e)return r;if(4&e&&"object"==typeof r&&r&&r.__esModule)return r;var t=Object.create(null);if(f.r(t),Object.defineProperty(t,"default",{enumerable:!0,value:r}),2&e&&"string"!=typeof r)for(var n in r)f.d(t,n,function(e){return r[e]}.bind(null,n));return t},f.n=function(e){var r=e&&e.__esModule?function(){return e.default}:function(){return e};return f.d(r,"a",r),r},f.o=function(e,r){return Object.prototype.hasOwnProperty.call(e,r)},f.p="/";var r=window.webpackJsonp=window.webpackJsonp||[],n=r.push.bind(r);r.push=e,r=r.slice();for(var o=0;o<r.length;o++)e(r[o]);var s=n;a()}([])</script><script src="/static/js/2.f0563411.chunk.js"></script><script src="/static/js/main.59de2edc.chunk.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="theme-color" content="#0093d5">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Aqua-Checkin</title>
+  <link rel="icon" type="image/png" href="img/favicon.png">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+
+    <!-- config warning (shown only if firebase-config.js is not filled in) -->
+    <div id="configBanner" class="banner" style="display:none">
+      <strong>Firebase not configured.</strong> Open
+      <code>firebase-config.js</code> and paste your Firebase project settings, then
+      reload. See <code>SETUP.md</code>. Running in <em>local demo mode</em> for now —
+      data is stored only in this browser.
+    </div>
+
+    <!-- ============================ HOME ============================ -->
+    <section id="view-home" class="view active">
+      <div class="masthead">
+        <img id="logo" src="img/logo.png" alt="Aqua-Checkin" title="Refresh">
+        <h1>Aqua-Checkin Roll Call</h1>
+        <p>Check in each morning, or take roll call during an evacuation, to account for
+           all Aqua employees &amp; guests.</p>
+      </div>
+
+      <div class="search-wrap">
+        <input id="search" type="text" autocomplete="off"
+               placeholder="Type your first name, last name, or department…">
+      </div>
+      <div class="hint">Start typing to find your name, then tap <b>IN</b> or <b>OUT</b>.</div>
+
+      <ul id="peopleList" class="list"></ul>
+      <div id="peopleEmpty" class="empty" style="display:none">
+        Type a name above to search the directory.
+      </div>
+
+      <div class="links no-print">
+        <button class="linkbtn" data-goto="guest">➕ &nbsp;Add a guest not in the list</button>
+        <button class="linkbtn" data-goto="report">📋 &nbsp;View today's Roll Call Report</button>
+        <button class="linkbtn" data-goto="floor1">🚪 &nbsp;First Floor Evacuation Route</button>
+        <button class="linkbtn" data-goto="floor2">🚪 &nbsp;Second Floor Evacuation Route</button>
+      </div>
+
+      <div class="small-links no-print">
+        <a href="help.html" target="_blank" rel="noopener">Help</a>
+      </div>
+    </section>
+
+    <!-- ============================ ADD GUEST ============================ -->
+    <section id="view-guest" class="view">
+      <div class="topbar">
+        <button class="btn ghost small" data-goto="home">‹ Back</button>
+        <h2>Add Guest</h2>
+      </div>
+      <p class="hint" style="text-align:left">
+        Add someone who is not in the employee directory so they can be checked in.
+      </p>
+      <form id="guestForm">
+        <div class="field">
+          <label for="gFirst">First name</label>
+          <input id="gFirst" type="text" required autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="gLast">Last name</label>
+          <input id="gLast" type="text" required autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="gDept">Department / company (optional)</label>
+          <input id="gDept" type="text" value="Guest" autocomplete="off">
+        </div>
+        <button id="guestSubmit" class="btn block green" type="submit">Add Guest</button>
+      </form>
+    </section>
+
+    <!-- ============================ REPORT ============================ -->
+    <section id="view-report" class="view">
+      <div class="topbar no-print">
+        <button class="btn ghost small" data-goto="home">‹ Back</button>
+        <h2>Roll Call Report</h2>
+        <button id="printBtn" class="btn small">Share / Print</button>
+      </div>
+      <div class="report-meta" id="reportMeta"></div>
+      <table class="report-table">
+        <thead>
+          <tr><th>First</th><th>Last</th><th>Department</th><th>Time</th></tr>
+        </thead>
+        <tbody id="reportBody"></tbody>
+      </table>
+      <div id="reportEmpty" class="empty" style="display:none">No one is checked in yet today.</div>
+    </section>
+
+    <!-- ============================ FLOOR MAPS ============================ -->
+    <section id="view-floor1" class="view">
+      <div class="topbar">
+        <button class="btn ghost small" data-goto="home">‹ Back</button>
+        <h2>First Floor Evacuation Route</h2>
+      </div>
+      <img class="evac-img" src="img/floor1.jpg" alt="First floor evacuation route">
+    </section>
+
+    <section id="view-floor2" class="view">
+      <div class="topbar">
+        <button class="btn ghost small" data-goto="home">‹ Back</button>
+        <h2>Second Floor Evacuation Route</h2>
+      </div>
+      <img class="evac-img" src="img/floor2.jpg" alt="Second floor evacuation route">
+    </section>
+
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <!-- Clear the OLD React PWA's service worker + caches so returning visitors
+       get this new app instead of a stale cached copy. Safe no-op otherwise. -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations()
+        .then((regs) => regs.forEach((r) => r.unregister())).catch(() => {});
+      if (window.caches && caches.keys) {
+        caches.keys().then((keys) => keys.forEach((k) => caches.delete(k))).catch(() => {});
+      }
+    }
+  </script>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "hosting": {
+    "public": ".",
+    "ignore": ["firebase.json", "**/.*", "SETUP.md", "serve.py"],
+    "headers": [
+      {
+        "source": "**/*.@(js|mjs)",
+        "headers": [{ "key": "Content-Type", "value": "text/javascript; charset=utf-8" }]
+      }
+    ],
+    "rewrites": [{ "source": "**", "destination": "/index.html" }]
+  },
+  "firestore": {
+    "rules": "firestore.rules"
+  }
+}

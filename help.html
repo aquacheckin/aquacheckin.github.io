@@ -1,164 +1,181 @@
 <html>
-  <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-#wrap {
-    float: left;
-    position: relative;
-    left: 50%;
-    font-size: 14px; /* Increase font size */
-}
 
-#content {
-    float: left;
-    position: relative;
-    left: -50%;
-}
-#myBtn {
-  display: none; /* Hidden by default */
-  position: fixed; /* Fixed/sticky position */
-  bottom: 30px; /* Place the button at the bottom of the page */
-  right: 30px; /* Place the button 30px from the right */
-  z-index: 99; /* Make sure it does not overlap */
-  border: none; /* Remove borders */
-  outline: none; /* Remove outline */
-  background-color: red; /* Set a background color */
-  color: white; /* Text color */
-  cursor: pointer; /* Add a mouse pointer on hover */
-  padding: 15px; /* Some padding */
-  border-radius: 10px; /* Rounded corners */
-  font-size: 18px; /* Increase font size */
-}
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    #wrap {
+      float: left;
+      position: relative;
+      left: 50%;
+      font-size: 14px;
+      /* Increase font size */
+    }
 
-#myBtn:hover {
-  background-color: #555; /* Add a dark-grey background on hover */
-}
-</style>
+    #content {
+      float: left;
+      position: relative;
+      left: -50%;
+    }
+
+    #myBtn {
+      display: none;
+      /* Hidden by default */
+      position: fixed;
+      /* Fixed/sticky position */
+      bottom: 30px;
+      /* Place the button at the bottom of the page */
+      right: 30px;
+      /* Place the button 30px from the right */
+      z-index: 99;
+      /* Make sure it does not overlap */
+      border: none;
+      /* Remove borders */
+      outline: none;
+      /* Remove outline */
+      background-color: red;
+      /* Set a background color */
+      color: white;
+      /* Text color */
+      cursor: pointer;
+      /* Add a mouse pointer on hover */
+      padding: 15px;
+      /* Some padding */
+      border-radius: 10px;
+      /* Rounded corners */
+      font-size: 18px;
+      /* Increase font size */
+    }
+
+    #myBtn:hover {
+      background-color: #555;
+      /* Add a dark-grey background on hover */
+    }
+  </style>
 </head>
+
 <body>
-<button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
-<div id="wrap">
-   <div id="content">
-<center><img src="aquacheckin.png" width="250"></center>
-<h1>Aqua-Checkin Roll Call App</h1>
-This app will be used to account for all Aqua employees & guests in case of an emergency evacuation.
-<br><br>The app can be accessed from any internet connected computer, phone or tablet.
-<br>
-<br>
-<h2>How do I find evacuation route map?</h2>
-<ul>
-<li>If your on first floor during evacuation call, Tap <b>FIRST FLOOR EVACUATION ROUTE</b></li>
-<li>If your on second floor during evacuation call, Tap <b>SECOND FLOOR EVACUATION ROUTE</b></li>
-</ul>
-<h2>How do I take ROLL CALL of folks in my area?</h2>
-<ul>
-<li>First, make sure employee/guests are in designated area BEFORE taking roll call for your area.</li>
-<li>Begin typing in department name to see all in your area or first/last name of employee/guests</li>
-<li>Tap <b>Add Guest</b> button if name is not listed.</li>
-<li>Tap <b>IN</b> button once employee/guest has been verified as being present in designated area.</li> 
-<li>Don't worry about duplicate check-ins. The app will only show a name ONCE</li>
-<li>That’s it!</li>
-<br>
-<li>Tap <b>OUT</b> button if person is mistakenly checked in</li>
-</ul>
-<h2>How do I view the <b>Roll Call Report</b>?</h2>
-<ul>
-<li>Tap <b>Report</b> button</li>
-<li>The report will ONLY show ROLL CALL results for current date.</li>
-</ul>
-<h2>How do I share the <b>Roll Call Report</b>?</h2>
-<ul>
-<li>Tap <b>Share/Print Report</b> link</li>
-<li>Use the web browser share tools to send report via email, text message, etc.</li>
-</ul>
-<h2>How do I add guests to the database?</h2>
-<ul>
-<li>Guest that you know will be visiting Aqua must be added manually to the Aqua-Checkin database</li>
-<li>First, check to see if they are already in database by searching for guest name on home page searchbox</li>
-<li>If they are not in the database, tap "Add Guests" button to add guest name</li>
-</ul>
-
-<h2>How do I setup Aqua-Checkin App on my devices?<h2>
-  <h3>Computer/Laptop</h3>
-<ul>
-<li>Open <a href="https://aquacheckin.github.io/">https://aquacheckin.github.io</a> from the Chrome web browser</li>
-<br>
-Bookmark webpage or follow steps below to save as desktop shortcut.
-<br><br>
-<li>Click the Chrome menu on the browser toolbar</li>
-<li>Select <b>More Tools</b></li>
-<li>Select <b>Createshortcut</b></li>
-<li>Click <b>Create</b></li>
-<li>You should have a new shortcut on your desktop titled: <b>Aqua-Checkin</b></li>
-</ul>
-  
-<h3>iPhone</h3>
-Best viewed if phone is in landscape mode.
-  <ul>
-<li>Open <a href="https://aquacheckin.github.io/">https://aquacheckin.github.io</a> from Safari web browser<br>
-<br>
-Either bookmark webpage or follow steps below to save as homescreen shortcut.
-<br><br>
-<b>See Picture Steps below on how to add to iPhones home screen</b><br><br>
-<li>Tap arrow icon on bottom of iphone (see circled icon)</li>
-<img src="111.jpg" width="250"><br><br>
-<li>Tap <b>Add to Home Screen</b> (see circled icon)</li>
-<img src="222.jpg" width="250"><br><br>
-<li>Tap <b>Add</b> (see circled icon)</li>
-<img src="333.jpg" width="250"><br><br>
-<li>You should now see the <b>Aqua-Checkin</b> icon on your iPhones home screen! (see image below)</li>
-<img src="444.jpg"><br><br>
-  </ul>
-  <h3>Android</h3>
-
-Best viewed if phone is in landscape mode.
-  
-
-  <ul>
-<li>Open <a href="https://aquacheckin.github.io/">https://aquacheckin.github.io</a> from the Chrome web browser</li>
-<br>
-Either bookmark webpage or follow steps below to save as homescreen shortcut.
-<br><br>
-<li>Tap on the <b>Menu</b> button. The looks of the Menu button will depend on your device; usually it’s an app button that looks like <br>three horizontal lines stacked on each other, or it could be accessed through a hardware button on your phone.</li>
-<li>Tap <b>Add to Home Screen</b>, Done! A shortcut to the website will be added to your home screen.</li>
+  <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
+  <div id="wrap">
+    <div id="content">
+      <center><img src="aquacheckin.png" width="250"></center>
+      <h1>Aqua-Checkin Roll Call App</h1>
+      This app will be used to account for all Aqua employees & guests in case of an emergency evacuation.
+      <br><br>The app can be accessed from any internet connected computer, phone or tablet.
+      <br>
+      <br>
+      <h2>How do I find evacuation route map?</h2>
+      <ul>
+        <li>If your on first floor during evacuation call, Tap <b>FIRST FLOOR EVACUATION ROUTE</b></li>
+        <li>If your on second floor during evacuation call, Tap <b>SECOND FLOOR EVACUATION ROUTE</b></li>
       </ul>
-<br>
+      <h2>How do I take ROLL CALL of folks in my area?</h2>
+      <ul>
+        <li>First, make sure employee/guests are in designated area BEFORE taking roll call for your area.</li>
+        <li>Begin typing in department name to see all in your area or first/last name of employee/guests</li>
+        <li>Tap <b>Add Guest</b> button if name is not listed.</li>
+        <li>Tap <b>IN</b> button once employee/guest has been verified as being present in designated area.</li>
+        <li>Don't worry about duplicate check-ins. The app will only show a name ONCE</li>
+        <li>That’s it!</li>
+        <br>
+        <li>Tap <b>OUT</b> button if person is mistakenly checked in</li>
+      </ul>
+      <h2>How do I view the <b>Roll Call Report</b>?</h2>
+      <ul>
+        <li>Tap <b>Report</b> button</li>
+        <li>The report will ONLY show ROLL CALL results for current date.</li>
+      </ul>
+      <h2>How do I share the <b>Roll Call Report</b>?</h2>
+      <ul>
+        <li>Tap <b>Share/Print Report</b> link</li>
+        <li>Use the web browser share tools to send report via email, text message, etc.</li>
+      </ul>
+      <h2>How do I add guests to the database?</h2>
+      <ul>
+        <li>Guest that you know will be visiting Aqua must be added manually to the Aqua-Checkin database</li>
+        <li>First, check to see if they are already in database by searching for guest name on home page searchbox</li>
+        <li>If they are not in the database, tap "Add Guests" button to add guest name</li>
+      </ul>
 
-<br>
+      <h2>How do I setup Aqua-Checkin App on my devices?<h2>
+          <h3>Computer/Laptop</h3>
+          <ul>
+            <li>Open <a href="https://aquacheckin.github.io/">https://aquacheckin.github.io</a> from the Chrome web
+              browser</li>
+            <br>
+            Bookmark webpage or follow steps below to save as desktop shortcut.
+            <br><br>
+            <li>Click the Chrome menu on the browser toolbar</li>
+            <li>Select <b>More Tools</b></li>
+            <li>Select <b>Createshortcut</b></li>
+            <li>Click <b>Create</b></li>
+            <li>You should have a new shortcut on your desktop titled: <b>Aqua-Checkin</b></li>
+          </ul>
 
-<br>
+          <h3>iPhone</h3>
+          Best viewed if phone is in landscape mode.
+          <ul>
+            <li>Open <a href="https://aquacheckin.github.io/">https://aquacheckin.github.io</a> from Safari web
+              browser<br>
+              <br>
+              Either bookmark webpage or follow steps below to save as homescreen shortcut.
+              <br><br>
+            <li>Tap arrow icon on bottom of iphone (up arrow icon)</li>
+            <li>Tap <b>Add to Home Screen</b> (up arrow icon)</li>
+            <li>Tap <b>Add</b> (up arrow icon)</li>
+            <li>You should now see the <b>Aqua-Checkin</b> icon on your iPhones home screen! (see image below)</li>
+          </ul>
+          <h3>Android</h3>
+          Best viewed if phone is in landscape mode.
 
-<br>
+          <ul>
+            <li>Open <a href="https://aquacheckin.github.io/">https://aquacheckin.github.io</a> from the Chrome web
+              browser</li>
+            <br>
+            Either bookmark webpage or follow steps below to save as homescreen shortcut.
+            <br><br>
+            <li>Tap on the <b>Menu</b> button. The looks of the Menu button will depend on your device; usually it’s an
+              app button that looks like <br>three horizontal lines stacked on each other, or it could be accessed
+              through a hardware button on your phone.</li>
+            <li>Tap <b>Add to Home Screen</b>, Done! A shortcut to the website will be added to your home screen.</li>
+          </ul>
+          <br>
 
-<br>
+          <br>
 
-<br>
+          <br>
 
-<br>
+          <br>
 
-   </div>
-</div>
-<script>
-//Get the button
-var mybutton = document.getElementById("myBtn");
+          <br>
 
-// When the user scrolls down 20px from the top of the document, show the button
-window.onscroll = function() {scrollFunction()};
+          <br>
 
-function scrollFunction() {
-  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-    mybutton.style.display = "block";
-  } else {
-    mybutton.style.display = "none";
-  }
-}
+          <br>
 
-// When the user clicks on the button, scroll to the top of the document
-function topFunction() {
-  document.body.scrollTop = 0;
-  document.documentElement.scrollTop = 0;
-}
-</script>
+    </div>
+  </div>
+  <script>
+    //Get the button
+    var mybutton = document.getElementById("myBtn");
+
+    // When the user scrolls down 20px from the top of the document, show the button
+    window.onscroll = function () { scrollFunction() };
+
+    function scrollFunction() {
+      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        mybutton.style.display = "block";
+      } else {
+        mybutton.style.display = "none";
+      }
+    }
+
+    // When the user clicks on the button, scroll to the top of the document
+    function topFunction() {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    }
+  </script>
 
 </body>
-  </html>
+
+</html>

@@ -1,0 +1,38 @@
+rules_version = '2';
+
+// ---------------------------------------------------------------------------
+// Aqua-Checkin Firestore rules
+// ---------------------------------------------------------------------------
+// This is a kiosk-style app with no user login, so the client needs to read
+// and write the directory and check-in records directly. The rules below allow
+// that while blocking obviously malformed writes.
+//
+// NOTE: without authentication, anyone with the app URL and your public web
+// config can read/write these two collections. That is normal for an internal
+// evacuation roll-call tool. If you need it locked down, put the app behind
+// Firebase Authentication (e.g. anonymous or Google sign-in) and change the
+// `allow` conditions to `request.auth != null`.
+// ---------------------------------------------------------------------------
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // The employee DIRECTORY is read live from the AQUALocator project, so this
+    // project no longer stores an 'employees' collection. In-app guests (people
+    // not in the directory) are stored here instead, add-only.
+    match /guests/{id} {
+      allow read: if true;
+      allow create: if request.resource.data.keys().hasAll(['first', 'last'])
+                    && request.resource.data.first is string
+                    && request.resource.data.last is string;
+      allow update, delete: if false;
+    }
+
+    match /checkins/{id} {
+      allow read: if true;
+      allow create: if request.resource.data.keys().hasAll(['first', 'last', 'status', 'date'])
+                    && request.resource.data.status in ['in', 'out'];
+      allow update, delete: if false;    // check-ins are an append-only log
+    }
+  }
+}
