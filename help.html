@@ -11,25 +11,32 @@
     :root {
       --aqua: #0093d5;
       --aqua-dark: #007bb3;
-      --ink: #1a1a1a;
-      --muted: #5b6470;
-      --bg: #f6f6f6;
+      --grad-brand: linear-gradient(135deg, #12aeea 0%, #0093d5 55%, #0079b5 100%);
+      --ink: #14202b;
+      --ink-soft: #43535f;
+      --muted: #7a8794;
+      --bg: #eef2f5;
+      --bg-grad: radial-gradient(1200px 600px at 50% -10%, #ffffff 0%, #eef2f5 60%);
       --card: #ffffff;
-      --line: #e4e7eb;
+      --line: #e6eaee;
       --green: #2e9e5b;
       --red: #d64545;
-      --radius: 12px;
-      --shadow: 0 1px 3px rgba(0, 0, 0, .07), 0 6px 18px rgba(0, 0, 0, .05);
+      --radius: 14px;
+      --sh-1: 0 1px 2px rgba(16, 40, 60, .06), 0 2px 8px rgba(16, 40, 60, .05);
+      --sh-2: 0 4px 14px rgba(16, 40, 60, .10), 0 12px 30px rgba(16, 40, 60, .07);
     }
 
     @media (prefers-color-scheme: dark) {
       :root {
-        --ink: #e8eaed;
-        --muted: #9aa4b0;
-        --bg: #14171a;
-        --card: #1e2226;
-        --line: #2c3238;
-        --shadow: 0 1px 3px rgba(0, 0, 0, .4);
+        --ink: #e9eef2;
+        --ink-soft: #b7c2cc;
+        --muted: #8b98a4;
+        --bg: #0f151b;
+        --bg-grad: radial-gradient(1200px 600px at 50% -10%, #1a232c 0%, #0f151b 60%);
+        --card: #182029;
+        --line: #2a333c;
+        --sh-1: 0 1px 2px rgba(0, 0, 0, .4);
+        --sh-2: 0 8px 26px rgba(0, 0, 0, .5);
       }
     }
 
@@ -38,60 +45,81 @@
     body {
       margin: 0;
       background: var(--bg);
+      background-image: var(--bg-grad);
+      background-attachment: fixed;
       color: var(--ink);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
     }
 
-    .wrap { max-width: 760px; margin: 0 auto; padding: 24px 18px 80px; }
+    .wrap { max-width: 760px; margin: 0 auto; padding: 26px 18px 90px; }
 
     header { text-align: center; padding: 12px 0 8px; }
-    header img { width: 200px; max-width: 60%; height: auto; }
-    header h1 { color: var(--aqua); font-size: 1.7rem; margin: 10px 0 4px; }
+    header h1 {
+      font-size: clamp(1.6rem, 6vw, 2rem); margin: 6px 0 6px; font-weight: 800;
+      letter-spacing: -.02em;
+      background: var(--grad-brand); -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
     header p.lead { color: var(--muted); margin: 0 auto; max-width: 540px; }
 
-    section { margin-top: 26px; }
+    section { margin-top: 30px; }
     h2 {
-      font-size: 1.2rem; margin: 0 0 12px; padding-bottom: 8px;
-      border-bottom: 2px solid var(--line); color: var(--ink);
+      font-size: 1.22rem; margin: 0 0 14px; padding-bottom: 9px;
+      border-bottom: 2px solid var(--line); color: var(--ink); font-weight: 800;
+      letter-spacing: -.01em;
     }
-    h2 .emoji { margin-right: 8px; }
+    h2 .emoji { margin-right: 9px; }
     h3 { font-size: 1rem; margin: 18px 0 8px; color: var(--aqua-dark); }
 
     .card {
       background: var(--card); border: 1px solid var(--line);
-      border-radius: var(--radius); box-shadow: var(--shadow);
-      padding: 16px 18px; margin-bottom: 14px;
+      border-radius: var(--radius); box-shadow: var(--sh-1);
+      padding: 18px 20px; margin-bottom: 14px;
     }
     .card ol, .card ul { margin: 0; padding-left: 1.25rem; }
-    .card li { margin: 6px 0; }
+    .card li { margin: 7px 0; }
     .card li::marker { color: var(--aqua); font-weight: 700; }
 
-    .pill {
-      display: inline-block; font-weight: 700; font-size: .82em;
-      padding: 1px 9px; border-radius: 20px; color: #fff; line-height: 1.7;
+    .avatar-demo {
+      display: inline-grid; place-items: center; width: 26px; height: 26px;
+      border-radius: 50%; color: #fff; font-size: .72em; font-weight: 800;
+      vertical-align: -8px; margin: 0 2px;
+      background: linear-gradient(135deg, hsl(200 68% 54%), hsl(226 66% 44%));
     }
+
+    .pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-weight: 700; font-size: .8em; padding: 2px 10px; border-radius: 999px;
+      color: #fff; line-height: 1.7; vertical-align: 1px;
+    }
+    .pill.dot::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,.9); }
     .pill.in { background: var(--green); }
     .pill.out { background: var(--red); }
-    .pill.aqua { background: var(--aqua); }
+    .pill.aqua { background: var(--grad-brand); }
     .pill.guest { background: var(--muted); }
 
-    a { color: var(--aqua-dark); }
+    a { color: var(--aqua-dark); font-weight: 600; }
 
     .tip {
-      background: rgba(0, 147, 213, .08); border-left: 3px solid var(--aqua);
-      border-radius: 6px; padding: 10px 14px; margin: 12px 0; color: var(--ink);
+      background: rgba(0, 147, 213, .09); border-left: 3px solid var(--aqua);
+      border-radius: 8px; padding: 11px 15px; margin: 14px 0 2px; color: var(--ink);
+      font-size: .95em;
+    }
+    .note {
+      background: rgba(214, 69, 69, .09); border-left: 3px solid var(--red);
+      border-radius: 8px; padding: 11px 15px; margin: 14px 0 2px; color: var(--ink);
       font-size: .95em;
     }
 
     #topBtn {
       display: none; position: fixed; bottom: 24px; right: 24px; z-index: 99;
-      border: none; outline: none; background: var(--aqua); color: #fff;
-      cursor: pointer; padding: 12px 16px; border-radius: 50px; font-size: 15px;
-      font-weight: 600; box-shadow: var(--shadow);
+      border: none; outline: none; background: var(--grad-brand); color: #fff;
+      cursor: pointer; padding: 12px 18px; border-radius: 999px; font-size: 15px;
+      font-weight: 700; box-shadow: var(--sh-2);
     }
-    #topBtn:hover { background: var(--aqua-dark); }
+
+    @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
   </style>
 </head>
 
@@ -112,13 +140,14 @@
       <div class="card">
         <ol>
           <li>On the home screen, start typing your <b>first name</b>, <b>last name</b>, or <b>department</b> in the search box.</li>
-          <li>Find your name in the list that appears.</li>
+          <li>Find your name in the list. Each person shows a colored initials badge (e.g. <span class="avatar-demo">SA</span>) so names are easy to spot.</li>
           <li>Tap <span class="pill in">IN</span> when you're accounted for, or <span class="pill out">OUT</span> if you're leaving or were checked in by mistake.</li>
         </ol>
         <div class="tip">
           A badge next to a name shows their current status for today —
-          <span class="pill in">In</span> or <span class="pill out">Out</span>. Duplicate
-          taps are fine; the report always counts each person once.
+          <span class="pill in dot">In</span> or <span class="pill out dot">Out</span>. Duplicate
+          taps are fine; the report always counts each person once. Tap the <b>&times;</b> in the
+          search box to clear it and search again.
         </div>
       </div>
     </section>
@@ -154,6 +183,22 @@
           <li>On the first floor during an evacuation? Tap <span class="pill aqua">First Floor Evacuation Route</span>.</li>
           <li>On the second floor? Tap <span class="pill aqua">Second Floor Evacuation Route</span>.</li>
         </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2><span class="emoji">🔒</span>Admin (authorized staff)</h2>
+      <div class="card">
+        <p>Tap <b>Admin</b> at the bottom of the home screen and enter the admin PIN to manage today's check-ins.</p>
+        <ul>
+          <li><b>Reset all check-ins for today</b> — clears today's roll call so everyone shows as not checked in. Handy at the start of the day or after a drill.</li>
+          <li><b>Check out</b> next to any person — corrects a mistaken check-in by marking that person out.</li>
+        </ul>
+        <div class="note">
+          Resetting does <b>not</b> delete anything — the check-in history is kept; it only clears
+          today's report, and people simply check in again afterward. The PIN is for authorized
+          staff only; ask your administrator if you need it.
+        </div>
       </div>
     </section>
 

@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -10,6 +11,7 @@
   <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
   <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
   <div class="app">
 
@@ -26,13 +28,12 @@
       <div class="masthead">
         <img id="logo" src="img/logo.png" alt="Aqua-Checkin" title="Refresh">
         <h1>Aqua-Checkin Roll Call</h1>
-        <p>Check in each morning, or take roll call during an evacuation, to account for
-           all Aqua employees &amp; guests.</p>
+        <p>Check in during an evacuation/emergency, to account for
+          all Aqua employees &amp; guests.</p>
       </div>
 
       <div class="search-wrap">
-        <input id="search" type="text" autocomplete="off"
-               placeholder="Search your name or department…">
+        <input id="search" type="text" autocomplete="off" placeholder="Search your name or department…">
         <button id="searchClear" class="search-clear" type="button" aria-label="Clear search" hidden>&times;</button>
       </div>
       <div class="subhint">
@@ -94,7 +95,12 @@
       <div class="report-meta" id="reportMeta"></div>
       <table class="report-table">
         <thead>
-          <tr><th>First</th><th>Last</th><th>Department</th><th>Time</th></tr>
+          <tr>
+            <th>First</th>
+            <th>Last</th>
+            <th>Department</th>
+            <th>Time</th>
+          </tr>
         </thead>
         <tbody id="reportBody"></tbody>
       </table>
@@ -156,13 +162,14 @@
   <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.getRegistrations()
-        .then((regs) => regs.forEach((r) => r.unregister())).catch(() => {});
+        .then((regs) => regs.forEach((r) => r.unregister())).catch(() => { });
       if (window.caches && caches.keys) {
-        caches.keys().then((keys) => keys.forEach((k) => caches.delete(k))).catch(() => {});
+        caches.keys().then((keys) => keys.forEach((k) => caches.delete(k))).catch(() => { });
       }
     }
   </script>
 
   <script type="module" src="app.js"></script>
 </body>
+
 </html>
