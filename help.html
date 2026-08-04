@@ -1,181 +1,200 @@
-<html>
+<!doctype html>
+<html lang="en">
 
 <head>
+  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0093d5">
+  <title>Aqua-Checkin — Help</title>
+  <link rel="icon" type="image/png" href="img/favicon.png">
   <style>
-    #wrap {
-      float: left;
-      position: relative;
-      left: 50%;
-      font-size: 14px;
-      /* Increase font size */
+    :root {
+      --aqua: #0093d5;
+      --aqua-dark: #007bb3;
+      --ink: #1a1a1a;
+      --muted: #5b6470;
+      --bg: #f6f6f6;
+      --card: #ffffff;
+      --line: #e4e7eb;
+      --green: #2e9e5b;
+      --red: #d64545;
+      --radius: 12px;
+      --shadow: 0 1px 3px rgba(0, 0, 0, .07), 0 6px 18px rgba(0, 0, 0, .05);
     }
 
-    #content {
-      float: left;
-      position: relative;
-      left: -50%;
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --ink: #e8eaed;
+        --muted: #9aa4b0;
+        --bg: #14171a;
+        --card: #1e2226;
+        --line: #2c3238;
+        --shadow: 0 1px 3px rgba(0, 0, 0, .4);
+      }
     }
 
-    #myBtn {
-      display: none;
-      /* Hidden by default */
-      position: fixed;
-      /* Fixed/sticky position */
-      bottom: 30px;
-      /* Place the button at the bottom of the page */
-      right: 30px;
-      /* Place the button 30px from the right */
-      z-index: 99;
-      /* Make sure it does not overlap */
-      border: none;
-      /* Remove borders */
-      outline: none;
-      /* Remove outline */
-      background-color: red;
-      /* Set a background color */
-      color: white;
-      /* Text color */
-      cursor: pointer;
-      /* Add a mouse pointer on hover */
-      padding: 15px;
-      /* Some padding */
-      border-radius: 10px;
-      /* Rounded corners */
-      font-size: 18px;
-      /* Increase font size */
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
     }
 
-    #myBtn:hover {
-      background-color: #555;
-      /* Add a dark-grey background on hover */
+    .wrap { max-width: 760px; margin: 0 auto; padding: 24px 18px 80px; }
+
+    header { text-align: center; padding: 12px 0 8px; }
+    header img { width: 200px; max-width: 60%; height: auto; }
+    header h1 { color: var(--aqua); font-size: 1.7rem; margin: 10px 0 4px; }
+    header p.lead { color: var(--muted); margin: 0 auto; max-width: 540px; }
+
+    section { margin-top: 26px; }
+    h2 {
+      font-size: 1.2rem; margin: 0 0 12px; padding-bottom: 8px;
+      border-bottom: 2px solid var(--line); color: var(--ink);
     }
+    h2 .emoji { margin-right: 8px; }
+    h3 { font-size: 1rem; margin: 18px 0 8px; color: var(--aqua-dark); }
+
+    .card {
+      background: var(--card); border: 1px solid var(--line);
+      border-radius: var(--radius); box-shadow: var(--shadow);
+      padding: 16px 18px; margin-bottom: 14px;
+    }
+    .card ol, .card ul { margin: 0; padding-left: 1.25rem; }
+    .card li { margin: 6px 0; }
+    .card li::marker { color: var(--aqua); font-weight: 700; }
+
+    .pill {
+      display: inline-block; font-weight: 700; font-size: .82em;
+      padding: 1px 9px; border-radius: 20px; color: #fff; line-height: 1.7;
+    }
+    .pill.in { background: var(--green); }
+    .pill.out { background: var(--red); }
+    .pill.aqua { background: var(--aqua); }
+    .pill.guest { background: var(--muted); }
+
+    a { color: var(--aqua-dark); }
+
+    .tip {
+      background: rgba(0, 147, 213, .08); border-left: 3px solid var(--aqua);
+      border-radius: 6px; padding: 10px 14px; margin: 12px 0; color: var(--ink);
+      font-size: .95em;
+    }
+
+    #topBtn {
+      display: none; position: fixed; bottom: 24px; right: 24px; z-index: 99;
+      border: none; outline: none; background: var(--aqua); color: #fff;
+      cursor: pointer; padding: 12px 16px; border-radius: 50px; font-size: 15px;
+      font-weight: 600; box-shadow: var(--shadow);
+    }
+    #topBtn:hover { background: var(--aqua-dark); }
   </style>
 </head>
 
 <body>
-  <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
-  <div id="wrap">
-    <div id="content">
-      <center><img src="aquacheckin.png" width="250"></center>
-      <h1>Aqua-Checkin Roll Call App</h1>
-      This app will be used to account for all Aqua employees & guests in case of an emergency evacuation.
-      <br><br>The app can be accessed from any internet connected computer, phone or tablet.
-      <br>
-      <br>
-      <h2>How do I find evacuation route map?</h2>
-      <ul>
-        <li>If your on first floor during evacuation call, Tap <b>FIRST FLOOR EVACUATION ROUTE</b></li>
-        <li>If your on second floor during evacuation call, Tap <b>SECOND FLOOR EVACUATION ROUTE</b></li>
-      </ul>
-      <h2>How do I take ROLL CALL of folks in my area?</h2>
-      <ul>
-        <li>First, make sure employee/guests are in designated area BEFORE taking roll call for your area.</li>
-        <li>Begin typing in department name to see all in your area or first/last name of employee/guests</li>
-        <li>Tap <b>Add Guest</b> button if name is not listed.</li>
-        <li>Tap <b>IN</b> button once employee/guest has been verified as being present in designated area.</li>
-        <li>Don't worry about duplicate check-ins. The app will only show a name ONCE</li>
-        <li>That’s it!</li>
-        <br>
-        <li>Tap <b>OUT</b> button if person is mistakenly checked in</li>
-      </ul>
-      <h2>How do I view the <b>Roll Call Report</b>?</h2>
-      <ul>
-        <li>Tap <b>Report</b> button</li>
-        <li>The report will ONLY show ROLL CALL results for current date.</li>
-      </ul>
-      <h2>How do I share the <b>Roll Call Report</b>?</h2>
-      <ul>
-        <li>Tap <b>Share/Print Report</b> link</li>
-        <li>Use the web browser share tools to send report via email, text message, etc.</li>
-      </ul>
-      <h2>How do I add guests to the database?</h2>
-      <ul>
-        <li>Guest that you know will be visiting Aqua must be added manually to the Aqua-Checkin database</li>
-        <li>First, check to see if they are already in database by searching for guest name on home page searchbox</li>
-        <li>If they are not in the database, tap "Add Guests" button to add guest name</li>
-      </ul>
+  <button onclick="topFunction()" id="topBtn" title="Back to top">↑ Top</button>
 
-      <h2>How do I setup Aqua-Checkin App on my devices?<h2>
-          <h3>Computer/Laptop</h3>
-          <ul>
-            <li>Open <a href="https://aquacheckin.github.io/">https://aquacheckin.github.io</a> from the Chrome web
-              browser</li>
-            <br>
-            Bookmark webpage or follow steps below to save as desktop shortcut.
-            <br><br>
-            <li>Click the Chrome menu on the browser toolbar</li>
-            <li>Select <b>More Tools</b></li>
-            <li>Select <b>Createshortcut</b></li>
-            <li>Click <b>Create</b></li>
-            <li>You should have a new shortcut on your desktop titled: <b>Aqua-Checkin</b></li>
-          </ul>
+  <div class="wrap">
+    <header>
+      <h1>Aqua-Checkin Help</h1>
+      <p class="lead">
+        Aqua-Checkin accounts for all Aqua employees &amp; guests during an emergency
+        evacuation. Use it from any internet-connected computer, phone, or tablet.
+      </p>
+    </header>
 
-          <h3>iPhone</h3>
-          Best viewed if phone is in landscape mode.
-          <ul>
-            <li>Open <a href="https://aquacheckin.github.io/">https://aquacheckin.github.io</a> from Safari web
-              browser<br>
-              <br>
-              Either bookmark webpage or follow steps below to save as homescreen shortcut.
-              <br><br>
-            <li>Tap arrow icon on bottom of iphone (up arrow icon)</li>
-            <li>Tap <b>Add to Home Screen</b> (up arrow icon)</li>
-            <li>Tap <b>Add</b> (up arrow icon)</li>
-            <li>You should now see the <b>Aqua-Checkin</b> icon on your iPhones home screen! (see image below)</li>
-          </ul>
-          <h3>Android</h3>
-          Best viewed if phone is in landscape mode.
+    <section>
+      <h2><span class="emoji">✅</span>Checking in and out</h2>
+      <div class="card">
+        <ol>
+          <li>On the home screen, start typing your <b>first name</b>, <b>last name</b>, or <b>department</b> in the search box.</li>
+          <li>Find your name in the list that appears.</li>
+          <li>Tap <span class="pill in">IN</span> when you're accounted for, or <span class="pill out">OUT</span> if you're leaving or were checked in by mistake.</li>
+        </ol>
+        <div class="tip">
+          A badge next to a name shows their current status for today —
+          <span class="pill in">In</span> or <span class="pill out">Out</span>. Duplicate
+          taps are fine; the report always counts each person once.
+        </div>
+      </div>
+    </section>
 
-          <ul>
-            <li>Open <a href="https://aquacheckin.github.io/">https://aquacheckin.github.io</a> from the Chrome web
-              browser</li>
-            <br>
-            Either bookmark webpage or follow steps below to save as homescreen shortcut.
-            <br><br>
-            <li>Tap on the <b>Menu</b> button. The looks of the Menu button will depend on your device; usually it’s an
-              app button that looks like <br>three horizontal lines stacked on each other, or it could be accessed
-              through a hardware button on your phone.</li>
-            <li>Tap <b>Add to Home Screen</b>, Done! A shortcut to the website will be added to your home screen.</li>
-          </ul>
-          <br>
+    <section>
+      <h2><span class="emoji">➕</span>Adding a guest</h2>
+      <div class="card">
+        <p>If someone isn't in the directory (a visitor, contractor, or new hire not yet listed):</p>
+        <ol>
+          <li>First, search the home screen to confirm they aren't already listed.</li>
+          <li>Tap <span class="pill aqua">Add a guest not in the list</span>.</li>
+          <li>Enter their first and last name (and optionally a company or department), then tap <b>Add Guest</b>.</li>
+          <li>They now appear in the list — marked <span class="pill guest">Guest</span> — and can be checked in like anyone else.</li>
+        </ol>
+      </div>
+    </section>
 
-          <br>
+    <section>
+      <h2><span class="emoji">📋</span>Roll Call Report</h2>
+      <div class="card">
+        <ul>
+          <li>Tap <span class="pill aqua">View today's Roll Call Report</span> on the home screen.</li>
+          <li>The report lists everyone currently checked <b>in</b> for <b>today's date only</b>.</li>
+          <li>To share or print it, tap <b>Share / Print</b> and use your browser's tools to send it by email, text, or to a printer.</li>
+        </ul>
+      </div>
+    </section>
 
-          <br>
+    <section>
+      <h2><span class="emoji">🚪</span>Evacuation route maps</h2>
+      <div class="card">
+        <ul>
+          <li>On the first floor during an evacuation? Tap <span class="pill aqua">First Floor Evacuation Route</span>.</li>
+          <li>On the second floor? Tap <span class="pill aqua">Second Floor Evacuation Route</span>.</li>
+        </ul>
+      </div>
+    </section>
 
-          <br>
+    <section>
+      <h2><span class="emoji">📱</span>Install it on your device</h2>
 
-          <br>
+      <div class="card">
+        <h3>Computer / Laptop</h3>
+        <ol>
+          <li>Open <a href="https://aquacheckin.github.io/">aquacheckin.github.io</a> in Chrome.</li>
+          <li>Bookmark it, or save it as an app: Chrome menu (⋮) → <b>Cast, save, and share</b> / <b>More tools</b> → <b>Create shortcut…</b>, check <b>Open as window</b>, then <b>Create</b>.</li>
+        </ol>
 
-          <br>
+        <h3>iPhone / iPad</h3>
+        <ol>
+          <li>Open <a href="https://aquacheckin.github.io/">aquacheckin.github.io</a> in Safari.</li>
+          <li>Tap the <b>Share</b> icon (the square with an up arrow) at the bottom of the screen.</li>
+          <li>Tap <b>Add to Home Screen</b>, then <b>Add</b>.</li>
+          <li>The <b>Aqua-Checkin</b> icon now appears on your home screen.</li>
+        </ol>
 
-          <br>
-
-    </div>
+        <h3>Android</h3>
+        <ol>
+          <li>Open <a href="https://aquacheckin.github.io/">aquacheckin.github.io</a> in Chrome.</li>
+          <li>Tap the menu button (⋮).</li>
+          <li>Tap <b>Add to Home screen</b> and confirm. A shortcut is added to your home screen.</li>
+        </ol>
+      </div>
+    </section>
   </div>
+
   <script>
-    //Get the button
-    var mybutton = document.getElementById("myBtn");
-
-    // When the user scrolls down 20px from the top of the document, show the button
-    window.onscroll = function () { scrollFunction() };
-
-    function scrollFunction() {
-      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-        mybutton.style.display = "block";
-      } else {
-        mybutton.style.display = "none";
-      }
-    }
-
-    // When the user clicks on the button, scroll to the top of the document
+    var topBtn = document.getElementById("topBtn");
+    window.addEventListener("scroll", function () {
+      var y = document.body.scrollTop || document.documentElement.scrollTop;
+      topBtn.style.display = y > 200 ? "block" : "none";
+    });
     function topFunction() {
-      document.body.scrollTop = 0;
-      document.documentElement.scrollTop = 0;
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   </script>
-
 </body>
 
 </html>
